@@ -5,40 +5,57 @@
 #include <QVBoxLayout>
 #include <QMessageBox>
 
+#include "optionswindow.h"
 
 StartMenu::StartMenu() : QWidget() {
-    QVBoxLayout *layout = new QVBoxLayout(this);
+    layout = new QVBoxLayout(this);
 
-    QPushButton *startButton = new QPushButton("Spiel starten", this);
-    startButton->setFixedSize(400, 150);
-    startButton->move(100, 200);
-    connect(startButton, &QPushButton::clicked, this, &StartMenu::startGame);
-    layout->addWidget(startButton);
+    buttons.append(createButton("Spiel starten", [this]() { startGame(); }, 2, 2));
+    buttons.append(createButton("Optionen", [this]() { optionsMenu(); }, 2, 2));
+    buttons.append(createButton("Spiel beenden", [this]() { exitGame(); }, 2, 2));
 
-    QPushButton *optionsButton = new QPushButton("Optionen", this);
-    optionsButton->setFixedSize(400, 150);
-    connect(optionsButton, &QPushButton::clicked, this, &StartMenu::optionsMenu);
-    layout->addWidget(optionsButton);
-
-    QPushButton *exitButton = new QPushButton("Spiel beenden", this);
-    exitButton->setFixedSize(400, 150);
-    connect(exitButton, &QPushButton::clicked, this, &StartMenu::exitGame);
-    layout->addWidget(exitButton);
+    for (QPushButton *button : buttons) {
+        layout->addWidget(button);
+    }
 
     setLayout(layout);
     showFullScreen();
 }
 
-void StartMenu::startGame(){
-    QMessageBox::information(this, "Spiel gestartet", "Das Spiel wird gestartet!");
+QPushButton* StartMenu::createButton(const QString &text, const std::function<void()> &slotFunction, int positionX, int positionY) {
+    QPushButton *button = new QPushButton(text, this);
+    button->setFixedSize(400, 150);
+    connect(button, &QPushButton::clicked, this, slotFunction);
+    return button;
+}
+
+void StartMenu::startGame() {
+    QMessageBox::information(this, "Verbindung wird hergestellt", "Sie verbinden sich mit dem Server: ");   // Hier später noch Servernamen bzw. ip einblenden
+
+    for (QPushButton *button : buttons) {
+        button->hide();
+        // Alternativ zum Ausblenden: delete button;
+    }
 }
 
 void StartMenu::optionsMenu() {
-    QMessageBox::information(this, "Optionen", "Optionen werden angezeigt!");
+    OptionsWindow optionsWindow;
+    if (optionsWindow.createButtons("adsf", [this, &optionsWindow]() {optionsWindow.bestaetigen(); }, 2, 2)) {
+        QMessageBox::information(this, "Optionen", "Optionen werden angezeigt!");
+
+        for (QPushButton *button : buttons) {
+            button->hide();
+        }
+
+        buttons.append(optionsWindow.createButtons("Einstellungen bestätigen",  [this, &optionsWindow]() {optionsWindow.bestaetigen(); }, 2, 2));
+
+        for (QPushButton *button : buttons) {
+            layout->addWidget(button);
+        }
+    }
 }
 
 void StartMenu::exitGame() {
     QMessageBox::information(this, "Spiel beendet", "Das Spiel wird beendet. Auf Wiedersehen!");
     qApp->quit();
 }
-

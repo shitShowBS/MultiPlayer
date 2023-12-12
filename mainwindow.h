@@ -7,15 +7,26 @@
 #ifndef STARTMENU_H
 #define STARTMENU_H
 
-class StartMenu : public QWidget
-{
+#include <QWidget>
+#include <QPushButton>
+#include <QVBoxLayout>
+#include <QMessageBox>
+
+class StartMenu : public QWidget {
+    Q_OBJECT
+
 public:
     StartMenu();
 
-private slots:
+private:
     void startGame();
     void optionsMenu();
     void exitGame();
+    QPushButton* createButton(const QString &text, const std::function<void()> &slotFunction, int positionX, int positionY);
+
+    QVBoxLayout *layout;
+    QList<QPushButton*> buttons;
 };
 
 #endif // STARTMENU_H
+
