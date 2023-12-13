@@ -6,6 +6,7 @@
 #include <QMessageBox>
 #include <iostream>
 #include <QLineEdit>
+#include <propertiescontroller.h>
 
 OptionsWindow::OptionsWindow() {
     createButtons("adsf",  [this]() { bestaetigen(); }, 2, 2);
@@ -28,6 +29,10 @@ QLineEdit* OptionsWindow::createLineEdit() {
 //Zuständig für die Funktion des Buttons "Bestätigen" welcher die vorgenommen Einstellungen übernimmt
 void OptionsWindow::bestaetigen() {
     std::cout << "alo" << std::endl;
+
+        PropertiesController myProperties("../Andere Dateien/benutzereinstellungen.properties");
+
+        myProperties.setProperty("testeinstellung", "TestServer"); //text aus lineedit
 }
 
 //Eine Testfunktion wird nicht länger benötigt ggf. entfernen

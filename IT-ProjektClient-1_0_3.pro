@@ -11,11 +11,13 @@ CONFIG += c++17
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
-    optionswindow.cpp
+    optionswindow.cpp \
+    propertiescontroller.cpp
 
 HEADERS += \
     mainwindow.h \
-    optionswindow.h
+    optionswindow.h \
+    propertiescontroller.h
 
 FORMS += \
     mainwindow.ui
@@ -24,3 +26,6 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+DISTFILES += \
+    benutzereinstellungen.properties

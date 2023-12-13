@@ -8,6 +8,8 @@
 #include <QLabel>
 
 #include "optionswindow.h"
+#include "propertiescontroller.h"
+#include <iostream>
 
 //Ruft die Factory für die Buttons auf und gibt die Parameter mit
 //Zuständig für den Aufbau der Startseite
@@ -27,7 +29,7 @@ StartMenu::StartMenu() : QWidget() {
 }
 
 //Factory für die Buttons -> Anhand der Parameter werden eigenständige Buttons erstellt
-QPushButton* StartMenu::createButton(const QString &text, const std::function<void()> &slotFunction, int positionX, int positionY) {
+QPushButton* StartMenu::createButton(const QString &text, const std::function<void()> &slotFunction, int positionX, int positionY) {//TODO Für das bestimmen der Position noch einbauen
     QPushButton *button = new QPushButton(text, this);
     button->setFixedSize(400, 150);
     connect(button, &QPushButton::clicked, this, slotFunction);
@@ -37,12 +39,15 @@ QPushButton* StartMenu::createButton(const QString &text, const std::function<vo
 //Funktion für den Button welcher für den Start des Spieles zuständig ist
 //Stellt automatisch eine Verbindung zu dem Server her welcher in den Optionen festgelegt wurde
 void StartMenu::startGame() {
-    QMessageBox::information(this, "Verbindung wird hergestellt", "Sie verbinden sich mit dem Server: ");   // Hier später noch Servernamen bzw. ip einblenden
+    PropertiesController propertiesContoller("..//Andere Dateien//benutzereinstellungen.properties");
+    std::cout <<"Servername richtig : " << propertiesContoller.getProperty("testeinstellung") <<std::endl;
+//    QMessageBox::information(this, "Verbindung wird hergestellt", "Sie verbinden sich mit dem Server: " + propertiesContoller.getProperty("testeinstellung"));   // Hier später noch Servernamen bzw. ip einblenden
 
     for (QPushButton *button : buttons) {
         button->hide();
         // Alternativ zum Ausblenden: delete button;
     }
+            std::cout << "Servername: " << propertiesContoller.getProperty("serverName") << std::endl;
 }
 
 //Entfernt alle bisher auf der Seite angezeigte Buttons und baut die Einstellungen-Seite auf
