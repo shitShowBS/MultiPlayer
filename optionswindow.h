@@ -8,6 +8,7 @@
 #define OPTIONSWINDOW_H
 
 #include<QPushButton>
+#include<QLineEdit>
 
 class OptionsWindow : public QWidget
 {
@@ -17,6 +18,7 @@ public:
     OptionsWindow();
     void bestaetigen();
     QPushButton* createButtons(const QString &text, const std::function<void()> &slotFunction, int positionX, int positionY);
+    QLineEdit* createLineEdit();
 private slots:
     void onButtonClicked();
 

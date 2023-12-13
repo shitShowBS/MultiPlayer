@@ -5,11 +5,13 @@
 #include <QVBoxLayout>
 #include <QMessageBox>
 #include <iostream>
+#include <QLineEdit>
 
 OptionsWindow::OptionsWindow() {
     createButtons("adsf",  [this]() { bestaetigen(); }, 2, 2);
 }
 
+//Erstellt die nötigen Buttons für das Fenster Optionen
 QPushButton* OptionsWindow::createButtons(const QString &text, const std::function<void()> &slotFunction, int positionX, int positionY) {
     QPushButton *button = new QPushButton(text, this);
     button->setFixedSize(400, 150);
@@ -17,11 +19,18 @@ QPushButton* OptionsWindow::createButtons(const QString &text, const std::functi
     return button;
 }
 
+//Erstellt den LineEdit zum Eintragen der IP des Servers
+QLineEdit* OptionsWindow::createLineEdit() {
+    QLineEdit *lineEdit = new QLineEdit();
+    return lineEdit;
+}
+
+//Zuständig für die Funktion des Buttons "Bestätigen" welcher die vorgenommen Einstellungen übernimmt
 void OptionsWindow::bestaetigen() {
     std::cout << "alo" << std::endl;
 }
 
-
+//Eine Testfunktion wird nicht länger benötigt ggf. entfernen
 void OptionsWindow::onButtonClicked() {
     std::cout <<"Moin" << std::endl;
 }

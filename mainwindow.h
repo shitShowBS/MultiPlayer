@@ -22,6 +22,7 @@ private:
     void startGame();
     void optionsMenu();
     void exitGame();
+    void bestaetigeExit();
     QPushButton* createButton(const QString &text, const std::function<void()> &slotFunction, int positionX, int positionY);
 
     QVBoxLayout *layout;
